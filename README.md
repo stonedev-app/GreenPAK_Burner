@@ -7,6 +7,18 @@ This is a sketch of programming the GreenPAK SLG46826 with an M5StickC Plus2
 Please refer to the following page
 https://elchika.com/article/e0de0e0d-b41a-4d93-9d8a-2013f501c906/
 
+# Wiring
+
+## M5StickC Plus2
+
+| M5StickC Plus2 | GreenPAK SLG46826G |
+| -------------- | ------------------ |
+| 3V3            | 20(VDD)            |
+| 3V3            | 7(VDD2)            |
+| GND            | 10(GND)            |
+| G32            | 12(SDA)            |
+| G33            | 13(SCL)            |
+
 
 # Notes
 
