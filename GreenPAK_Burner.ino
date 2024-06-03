@@ -1,14 +1,5 @@
-#if defined(ARDUINO_M5Stack_Core_ESP32) || defined(ARDUINO_M5STACK_FIRE)
-#include <M5Stack.h>
-#elif defined(ARDUINO_M5Stick_C)
-#include <M5StickC.h>
-#elif defined(ARDUINO_M5Stick_C_PLUS)
-#include <M5StickCPlus.h>
-#elif defined(ARDUINO_M5STACK_Core2)
-#include <M5Core2.h>
-#elif defined(ARDUINO_M5Stack_ATOM)
-#include <M5Atom.h>
-#endif
+#include <Wire.h>
+#include <M5Unified.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -33,23 +24,19 @@ const char eepromData[] PROGMEM = R"(
 // setup 
 ////////////////////////////////////////////////////////////////////////////////
 void setup() {
-  M5.begin();
-#if defined(ARDUINO_M5Stack_Core_ESP32) || defined(ARDUINO_M5STACK_FIRE)
-  Wire.begin();  // 21,22  
-#elif defined(ARDUINO_M5Stick_C) || defined(ARDUINO_M5Stick_C_PLUS) || defined(ARDUINO_M5STACK_Core2)
-  Wire.begin(32, 33);  
-#elif defined(ARDUINO_M5Stack_ATOM)
-  Wire.begin(26, 32);  
-#endif
+  auto cfg = M5.config();
+  M5.begin(cfg);
+  Wire.begin(M5.Ex_I2C.getSDA(), M5.Ex_I2C.getSCL());  
 
   Wire.setClock(100000);
   Serial.begin(115200);
   
-  M5.Lcd.setRotation(3);
-  M5.Lcd.setCursor(0, 0, 4);
-  M5.Lcd.print("GreenPAK\n");
-  M5.Lcd.print("Burner\n");
-  M5.Lcd.print("ver.0.4");
+  M5.Display.setRotation(3);
+  M5.Display.setCursor(0, 0, &fonts::Font4);
+  M5.Display.print("GreenPAK\n");
+  M5.Display.print("Burner\n");
+  M5.Display.print("ver.0.4\n");
+  M5.Display.printf("SDA:%2d SCL:%2d\n", M5.Ex_I2C.getSDA(), M5.Ex_I2C.getSCL());
   delay(100);
 }
 
